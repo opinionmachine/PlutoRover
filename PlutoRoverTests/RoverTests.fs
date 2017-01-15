@@ -39,20 +39,13 @@ type RoverTests() =
         Assert.That(y, Is.EqualTo(0))
         Assert.That(d, Is.EqualTo(d2))
 
-    [<Test>]   
-    member this.Can_execute_compound_instructions() =
-        let r = Rover(0, 0, 'N')
-        let pos = r.Move("FRF")
+    [<TestCase(0, 0, 'N', "FRF", 1, 1, 'E')>]
+    [<TestCase(0, 0, 'N', "FRFLB", 1, 0, 'N')>]
+    [<TestCase(1, 1, 'W', "FRFLB", 1, 2, 'W')>]
+    member this.Can_execute_compound_instructions(x0, y0, d0, cmd, x1, y1, d1) =
+        let r = Rover(x0, y0, d0)
+        let pos = r.Move(cmd)
         let x,y,d = pos
-        Assert.That(x, Is.EqualTo(1))
-        Assert.That(y, Is.EqualTo(1))
-        Assert.That(d, Is.EqualTo('E'))
-
-    [<Test>]   
-    member this.Can_execute_more_compound_instructions() =
-        let r = Rover(0, 0, 'N')
-        let pos = r.Move("FRFLB")
-        let x,y,d = pos
-        Assert.That(x, Is.EqualTo(1))
-        Assert.That(y, Is.EqualTo(0))
-        Assert.That(d, Is.EqualTo('N'))
+        Assert.That(x, Is.EqualTo(x1))
+        Assert.That(y, Is.EqualTo(y1))
+        Assert.That(d, Is.EqualTo(d1))
