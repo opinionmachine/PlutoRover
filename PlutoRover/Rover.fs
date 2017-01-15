@@ -20,21 +20,21 @@ type Rover(x0, y0 ,d0) =
         |   'E' -> d <- 'N'
         |   _  -> ()
 
-    member private this.goForward() =
+    member private this.go(step) =
         match d with 
-        |   'N' -> y <- y + 1
-        |   'E' -> x <- x + 1
-        |   'W' -> x <- x - 1
-        |   'S' -> y <- y - 1
+        |   'N' -> y <- y + step
+        |   'E' -> x <- x + step
+        |   'W' -> x <- x - step
+        |   'S' -> y <- y - step
         |   _   -> ()
 
     member private this.dispatch(commandlist) =
         match commandlist with
         |   'F'::rest -> 
-            this.goForward()
+            this.go(1)
             this.dispatch(rest)
         |   'B'::rest -> 
-            y <- y - 1
+            this.go(-1)
             this.dispatch(rest)
         |   'R'::rest -> 
             this.turnRight()

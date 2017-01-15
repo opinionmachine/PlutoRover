@@ -7,26 +7,21 @@ type RoverTests() =
     
     [<Test>]
     
-    [<TestCase(0, 0, 'N', 0, 1)>]    
-    [<TestCase(0, 0, 'E', 1, 0)>]    
-    [<TestCase(1, 1, 'W', 0, 1)>]    
-    [<TestCase(1, 1, 'S', 1, 0)>]    
-    member this.Can_move_forward(x0, y0, d0, x1, y1) = 
+    [<TestCase(0, 0, 'N', "F", 0, 1)>]    
+    [<TestCase(0, 0, 'E', "F", 1, 0)>]    
+    [<TestCase(1, 1, 'W', "F", 0, 1)>]    
+    [<TestCase(1, 1, 'S', "F", 1, 0)>]    
+    [<TestCase(1, 1, 'N', "B", 1, 0)>]    
+    [<TestCase(1, 1, 'E', "B", 0, 1)>]    
+    [<TestCase(0, 0, 'W', "B", 1, 0)>]    
+    [<TestCase(0, 0, 'S', "B", 0, 1)>]    
+    member this.Can_move_in_specified_direction(x0, y0, d0, cmd, x1, y1) = 
         let r = Rover(x0, y0, d0)
-        let pos = r.Move("F")
+        let pos = r.Move(cmd)
         let x,y,d = pos
         Assert.That(x, Is.EqualTo(x1));
         Assert.That(y, Is.EqualTo(y1));
         Assert.That(d, Is.EqualTo(d0));
-
-    [<Test>]    
-    member this.Can_move_backward() = 
-        let r = Rover(1,1,'N')
-        let pos = r.Move("B")
-        let x,y,d = pos
-        Assert.That(x, Is.EqualTo(1));
-        Assert.That(y, Is.EqualTo(0));
-        Assert.That(d, Is.EqualTo('N'));
 
     [<TestCase("R",'N', 'E')>]    
     [<TestCase("R",'E', 'S')>]    
