@@ -6,32 +6,19 @@ open PlutoRover
 type RoverTests() = 
     
     [<Test>]
-    member this.Can_move_forward() = 
-        let r = Rover(0,0,'N')
-        let pos = r.Move("F")
-        let x,y,d = pos
-        Assert.That(x, Is.EqualTo(0));
-        Assert.That(y, Is.EqualTo(1));
-        Assert.That(d, Is.EqualTo('N'));
-
-    [<Test>]
-    member this.Can_move_forward_facing_east() = 
-        let r = Rover(0,0,'E')
-        let pos = r.Move("F")
-        let x,y,d = pos
-        Assert.That(x, Is.EqualTo(1));
-        Assert.That(y, Is.EqualTo(0));
-        Assert.That(d, Is.EqualTo('E'));
-
-    [<Test>]
-    member this.Can_move_forward_facing_west() = 
-        let r = Rover(1,1,'W')
-        let pos = r.Move("F")
-        let x,y,d = pos
-        Assert.That(x, Is.EqualTo(0));
-        Assert.That(y, Is.EqualTo(1));
-        Assert.That(d, Is.EqualTo('W'));
     
+    [<TestCase(0, 0, 'N', 0, 1)>]    
+    [<TestCase(0, 0, 'E', 1, 0)>]    
+    [<TestCase(1, 1, 'W', 0, 1)>]    
+    [<TestCase(1, 1, 'S', 1, 0)>]    
+    member this.Can_move_forward(x0, y0, d0, x1, y1) = 
+        let r = Rover(x0, y0, d0)
+        let pos = r.Move("F")
+        let x,y,d = pos
+        Assert.That(x, Is.EqualTo(x1));
+        Assert.That(y, Is.EqualTo(y1));
+        Assert.That(d, Is.EqualTo(d0));
+
     [<Test>]    
     member this.Can_move_backward() = 
         let r = Rover(1,1,'N')

@@ -25,6 +25,7 @@ type Rover(x0, y0 ,d0) =
         |   'N' -> y <- y + 1
         |   'E' -> x <- x + 1
         |   'W' -> x <- x - 1
+        |   'S' -> y <- y - 1
         |   _   -> ()
 
     member private this.dispatch(commandlist) =
