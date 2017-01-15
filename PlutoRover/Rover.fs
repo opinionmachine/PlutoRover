@@ -1,9 +1,13 @@
 ﻿namespace PlutoRover
 
-type Rover(x0, y0 ,d0) = 
+type Rover(x0, y0 ,d0, xmax0, ymax0) = 
     let mutable x = x0
     let mutable y :int = y0
     let mutable d = d0
+    let xmax :int = xmax0
+    let ymax :int = ymax0
+    new(x0, y0, d0) =
+        Rover(x0, y0, d0, 100, 100)
     member private this.turnRight() =
         match d with
         |   'N' -> d <- 'E'
@@ -27,6 +31,8 @@ type Rover(x0, y0 ,d0) =
         |   'W' -> x <- x - step
         |   'S' -> y <- y - step
         |   _   -> ()
+        if y < 0 then y <- ymax
+        elif x < 0 then x <- xmax
 
     member private this.dispatch(commandlist) =
         match commandlist with
@@ -47,4 +53,5 @@ type Rover(x0, y0 ,d0) =
         
     member this.Move(commands: string) = 
         this.dispatch(commands |> Seq.toList)
+
         (x, y, d)
