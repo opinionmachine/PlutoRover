@@ -1,13 +1,14 @@
 ﻿namespace PlutoRover
 
-type Rover(x0, y0 ,d0, xmax0, ymax0) = 
+type Rover(x0, y0 ,d0, xmax0, ymax0, obstacles0) = 
     let mutable x = x0
     let mutable y :int = y0
     let mutable d = d0
     let xmax :int = xmax0
     let ymax :int = ymax0
+    let obstacles = obstacles0
     new(x0, y0, d0) =
-        Rover(x0, y0, d0, 100, 100)
+        Rover(x0, y0, d0, 100, 100, [])
     member private this.turnRight() =
         match d with
         |   'N' -> d <- 'E'
@@ -25,14 +26,19 @@ type Rover(x0, y0 ,d0, xmax0, ymax0) =
         |   _  -> ()
 
     member private this.go(step) =
+        let mutable ynext = y
+        let mutable xnext = x
         match d with 
-        |   'N' -> y <- y + step
-        |   'E' -> x <- x + step
-        |   'W' -> x <- x - step
-        |   'S' -> y <- y - step
+        |   'N' -> ynext <- y + step
+        |   'E' -> xnext <- x + step
+        |   'W' -> xnext <- x - step
+        |   'S' -> ynext <- y - step
         |   _   -> ()
-        if y < 0 then y <- ymax
-        elif x < 0 then x <- xmax
+        if ynext < 0 then ynext <- ymax
+        elif xnext < 0 then xnext <- xmax
+        if List.contains (xnext, ynext) obstacles then raise(ObstacleException(xnext, ynext))
+        y <- ynext
+        x <- xnext
 
     member private this.dispatch(commandlist) =
         match commandlist with
@@ -53,5 +59,7 @@ type Rover(x0, y0 ,d0, xmax0, ymax0) =
         
     member this.Move(commands: string) = 
         this.dispatch(commands |> Seq.toList)
+        (x, y, d)
 
+    member this.Pos() = 
         (x, y, d)

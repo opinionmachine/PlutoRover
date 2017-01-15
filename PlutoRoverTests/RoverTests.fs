@@ -52,9 +52,16 @@ type RoverTests() =
 
     [<Test>]
     member this.Coordinate_system_wraps_at_edges() =
-        let r = Rover(0, 0, 'N', 3, 3)
+        let r = Rover(0, 0, 'N', 3, 3, [])
         let pos = r.Move("BRB")
         let x,y,d = pos
         Assert.That(x, Is.EqualTo(3))
         Assert.That(y, Is.EqualTo(3))
         Assert.That(d, Is.EqualTo('E'))
+
+    [<Test>]
+    member this.Rover_detects_obstacles() =
+        let r = Rover(0, 0, 'N', 3, 3, [(1, 1)])
+        let m = fun() -> r.Move("FRF") |> ignore
+        Assert.That(m, Throws.TypeOf<ObstacleException>())
+        

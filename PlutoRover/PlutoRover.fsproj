@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="ObstacleException.fs" />
     <Compile Include="Rover.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>
