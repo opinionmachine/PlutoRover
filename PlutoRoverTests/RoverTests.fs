@@ -58,10 +58,14 @@ type RoverTests() =
         Assert.That(x, Is.EqualTo(3))
         Assert.That(y, Is.EqualTo(3))
         Assert.That(d, Is.EqualTo('E'))
-
+       
     [<Test>]
-    member this.Rover_detects_obstacles() =
+    member this.Rover_retains_previously_successful_position_when_obstacle_is_detected() =
         let r = Rover(0, 0, 'N', 3, 3, [(1, 1)])
         let m = fun() -> r.Move("FRF") |> ignore
         Assert.That(m, Throws.TypeOf<ObstacleException>())
+        let x,y,d = r.Pos()
+        Assert.That(x, Is.EqualTo(0))
+        Assert.That(y, Is.EqualTo(1))
+        Assert.That(d, Is.EqualTo('E'))
         
