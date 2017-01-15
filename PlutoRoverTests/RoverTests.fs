@@ -23,11 +23,12 @@ type RoverTests() =
         Assert.That(y, Is.EqualTo(0));
         Assert.That(d, Is.EqualTo('N'));
 
-    [<Test>]    
-    member this.When_I_turn_right_from_North_I_point_East() = 
-        let r = Rover(0,0,'N')
+    [<TestCase('N', 'E')>]    
+    [<TestCase('E', 'S')>]    
+    member this.When_I_turn_right_from_D1_I_point_D2(d1 : char, d2: char) = 
+        let r = Rover(0,0, d1)
         let pos = r.Move("R")
         let x,y,d = pos
         Assert.That(x, Is.EqualTo(0));
         Assert.That(y, Is.EqualTo(0));
-        Assert.That(d, Is.EqualTo('E'));
+        Assert.That(d, Is.EqualTo(d2));

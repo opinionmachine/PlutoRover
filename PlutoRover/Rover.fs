@@ -5,7 +5,11 @@ type Rover(x0, y0 ,d0) =
     let mutable y :int = y0
     let mutable d = d0
     member private this.turnRight() =
-        d <- 'E'
+        match d with
+        |   'N' -> d <- 'E'
+        |   'E' -> d <- 'S'
+        |   _  -> ()
+
     member private this.Dispatch(commandlist) =
         match commandlist with
         |   'F'::rest -> 
