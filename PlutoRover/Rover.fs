@@ -8,6 +8,16 @@ type Rover(x0, y0 ,d0) =
         match d with
         |   'N' -> d <- 'E'
         |   'E' -> d <- 'S'
+        |   'S' -> d <- 'W'
+        |   'W' -> d <- 'N'
+        |   _  -> ()
+
+    member private this.turnLeft() =
+        match d with
+        |   'N' -> d <- 'W'
+        |   'W' -> d <- 'S'
+        |   'S' -> d <- 'E'
+        |   'E' -> d <- 'N'
         |   _  -> ()
 
     member private this.Dispatch(commandlist) =
@@ -20,6 +30,9 @@ type Rover(x0, y0 ,d0) =
             this.Dispatch(rest)
         |   'R'::rest -> 
             this.turnRight()
+            this.Dispatch(rest)
+        |   'L'::rest -> 
+            this.turnLeft()
             this.Dispatch(rest)
         |   [] -> ()
         |   rest -> this.Dispatch(rest)
